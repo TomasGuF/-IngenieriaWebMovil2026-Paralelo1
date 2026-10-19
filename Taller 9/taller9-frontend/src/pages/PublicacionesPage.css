@@ -1,0 +1,36 @@
+.publicaciones {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-bottom: 88px;
+}
+
+.publicaciones .ayuda,
+.publicaciones .aviso {
+  margin: 16px 16px 4px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.publicaciones .ayuda {
+  color: var(--ion-color-step-600, #666666);
+}
+
+.publicaciones .aviso {
+  color: var(--ion-color-warning-shade, #9a5a00);
+}
+
+.publicaciones .estado {
+  padding: 48px 24px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.publicaciones .estado .error {
+  color: var(--ion-color-danger, #c5000f);
+}
+
+.usuario {
+  margin: 0 4px 0 8px;
+  font-size: 0.9rem;
+  color: var(--ion-color-step-600, #666666);
+}
