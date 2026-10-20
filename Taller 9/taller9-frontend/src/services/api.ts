@@ -1,5 +1,4 @@
-// Taller 9: completa los pasos 8 y 9 de este archivo.
-// El resto de la aplicación ya está listo y utiliza estas funciones.
+// API de autenticación, registro y publicaciones.
 
 import { obtenerSesion } from "./sesion";
 import type { Sesion } from "./sesion";
@@ -53,7 +52,11 @@ const procesarRespuesta = async (response: Response) => {
 // Envía username y password, y devuelve la respuesta del servidor ({ token, id, username }).
 // Pista: es muy parecida a crearPublicacion.
 export const iniciarSesion = async (username: string, password: string): Promise<Sesion> => {
-  throw new Error("Paso 8 pendiente: completa iniciarSesion en src/services/api.ts");
+  const response = await fetch(`${API_URL}/api/login`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  });
+  return procesarRespuesta(response);
 };
 
 // 9: Agrega el header Authorization con el token de la sesión.
@@ -61,7 +64,7 @@ export const iniciarSesion = async (username: string, password: string): Promise
 export const encabezadosConToken = (): Record<string, string> => {
   const sesion = obtenerSesion();
   const encabezados: Record<string, string> = {};
-  // Si hay una sesión, agrega aquí el header Authorization.
+  if (sesion) encabezados.Authorization = `Bearer ${sesion.token}`;
   return encabezados;
 };
 
@@ -105,4 +108,12 @@ export const eliminarPublicacion = async (id: number): Promise<void> => {
     headers: encabezadosConToken()
   });
   await procesarRespuesta(response);
+};
+
+export const registrarUsuario = async (username: string, password: string): Promise<{ id: number; username: string }> => {
+  const response = await fetch(`${API_URL}/api/usuarios`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  });
+  return procesarRespuesta(response);
 };

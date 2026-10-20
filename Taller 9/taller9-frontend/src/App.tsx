@@ -3,7 +3,8 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import LoginPage from './pages/LoginPage';
 import PublicacionesPage from './pages/PublicacionesPage';
-// 10: Importar obtenerSesion desde './services/sesion'.
+import { obtenerSesion } from './services/sesion';
+import RegistroPage from './pages/RegistroPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -37,16 +38,16 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-// 10: Crear el componente RutaProtegida: si hay sesión muestra su contenido (children);
-// si no, redirige a /login con <Navigate to="/login" replace />.
+export const RutaProtegida = ({ children }: { children: React.ReactElement }) =>
+  obtenerSesion() ? children : <Navigate to="/login" replace />;
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/login" element={<LoginPage />} />
-        {/* 10: Proteger esta ruta envolviendo la página con RutaProtegida. */}
-        <Route path="/publicaciones" element={<PublicacionesPage />} />
+        <Route path="/registro" element={<RegistroPage />} />
+        <Route path="/publicaciones" element={<RutaProtegida><PublicacionesPage /></RutaProtegida>} />
         <Route path="/" element={<Navigate to="/publicaciones" replace />} />
       </IonRouterOutlet>
     </IonReactRouter>

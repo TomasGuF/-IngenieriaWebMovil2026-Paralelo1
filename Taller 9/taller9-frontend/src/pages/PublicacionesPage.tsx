@@ -82,10 +82,6 @@ const PublicacionesPage: React.FC = () => {
   // Un 401 significa que el servidor no sabe quién somos: volvemos al login.
   const manejarError = (error: unknown) => {
     if (error instanceof ErrorApi && error.status === 401) {
-      if (error.message === "Token requerido" && obtenerSesion()) {
-        mostrarMensaje("Hay una sesión, pero el servidor no recibió el token. Completa el paso 9 en src/services/api.ts.", "danger");
-        return;
-      }
       mostrarMensaje(`${error.message}. Vuelve a iniciar sesión.`, "danger");
       salir();
       return;
@@ -225,13 +221,6 @@ const PublicacionesPage: React.FC = () => {
         </IonRefresher>
 
         <div className="publicaciones">
-          {!sesion && (
-            <p className="aviso">
-              No has iniciado sesión: puedes ver las publicaciones, pero no crear, editar ni eliminar. Esta página
-              debería redirigir al login (paso 10 en src/App.tsx).
-            </p>
-          )}
-
           {cargando && (
             <div className="estado">
               <IonSpinner name="dots" />

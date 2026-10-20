@@ -4,13 +4,16 @@
   "description": "Servidor Express del Taller 9: autenticación, autorización y JWT",
   "main": "servidor.js",
   "scripts": {
-    "start": "node servidor.js",
-    "dev": "node --watch servidor.js"
+    "start": "node --env-file=.env servidor.js",
+    "dev": "node --env-file=.env --watch servidor.js",
+    "test": "node --test"
   },
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "morgan": "^1.12.1"
   }
 }
