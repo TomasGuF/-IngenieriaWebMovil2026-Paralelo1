@@ -1,11 +1,20 @@
-// Ruta de inicio de sesión. Se monta en servidor.js en "/api/login".
-
 const express = require("express");
-// 4: Importar bcryptjs y jsonwebtoken.
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const usuarios = require("../datos/usuarios");
-
 const router = express.Router();
 
-// 4: Crear la ruta POST "/" que verifique las credenciales y responda con un token.
-
+router.post("/", async (req, res) => {
+  const { username, password } = req.body || {};
+  if (typeof username !== "string" || !username.trim() || typeof password !== "string" || !password) {
+    return res.status(400).json({ error: "Debes enviar username y password" });
+  }
+  const usuario = usuarios.find((u) => u.username === username);
+  if (!usuario || !await bcrypt.compare(password, usuario.passwordHash)) {
+    return res.status(401).json({ error: "Usuario o contraseña incorrectos" });
+  }
+  const token = jwt.sign({ id: usuario.id, username: usuario.username }, process.env.JWT_SECRET,
+    { algorithm: "HS256", expiresIn: process.env.JWT_EXPIRA || "1h" });
+  res.json({ token, id: usuario.id, username: usuario.username });
+});
 module.exports = router;

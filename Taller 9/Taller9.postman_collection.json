@@ -553,6 +553,34 @@
           ]
         }
       }
+    },
+    {
+      "name": "Cambiar mi contraseña",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"passwordActual\": \"ana-12345\",\n  \"passwordNueva\": \"ana-nueva-12345\"\n}"
+        },
+        "url": "{{baseUrl}}/api/usuarios/yo/password",
+        "description": "Requiere login. 204 al cambiar, 401 con contraseña actual incorrecta, 400 si la nueva es inválida. Los cambios se pierden al reiniciar."
+      }
     }
   ]
 }

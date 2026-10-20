@@ -17,7 +17,10 @@ export const guardarSesion = (sesion: Sesion) => {
 export const obtenerSesion = (): Sesion | null => {
   try {
     const texto = localStorage.getItem(CLAVE);
-    return texto ? JSON.parse(texto) : null;
+    if (!texto) return null;
+    const sesion = JSON.parse(texto);
+    return sesion && typeof sesion.token === "string" && sesion.token &&
+      Number.isInteger(sesion.id) && typeof sesion.username === "string" ? sesion : null;
   } catch {
     return null;
   }
